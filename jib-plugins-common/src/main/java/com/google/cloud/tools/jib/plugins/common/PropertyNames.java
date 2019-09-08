@@ -54,6 +54,7 @@ public class PropertyNames {
   public static final String DOCKER_CLIENT_EXECUTABLE = "jib.dockerClient.executable";
   public static final String DOCKER_CLIENT_ENVIRONMENT = "jib.dockerClient.environment";
   public static final String CONTAINERIZING_MODE = "jib.containerizingMode";
+  public static final String PROJECT_DEPENDENCIES_SELECTOR = "jib.projectDependenciesSelector";
   public static final String SKIP = "jib.skip";
   public static final String CONSOLE = "jib.console";
   public static final String CONTAINERIZE = "jib.containerize";

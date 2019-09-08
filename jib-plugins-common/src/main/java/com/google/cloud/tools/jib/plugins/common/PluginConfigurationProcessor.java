@@ -206,7 +206,8 @@ public class PluginConfigurationProcessor {
         projectProperties
             .createJibContainerBuilder(
                 javaContainerBuilder,
-                getContainerizingModeChecked(rawConfiguration, projectProperties))
+                getContainerizingModeChecked(rawConfiguration, projectProperties),
+                rawConfiguration.getProjectDependenciesSelector())
             .setEntrypoint(computeEntrypoint(rawConfiguration, projectProperties))
             .setProgramArguments(rawConfiguration.getProgramArguments().orElse(null))
             .setEnvironment(rawConfiguration.getEnvironment())

@@ -647,7 +647,7 @@ public class MavenProjectPropertiesTest {
 
     Map<LayerType, List<Path>> classifyDependencies =
         new MavenProjectProperties(mockMavenProject, mockMavenSession, mockLog)
-            .classifyDependencies(artifacts, projectArtifacts);
+            .classifyDependencies(artifacts, projectArtifacts, "");
 
     Assert.assertEquals(
         classifyDependencies.get(LayerType.DEPENDENCIES),
@@ -678,7 +678,7 @@ public class MavenProjectPropertiesTest {
             .setModificationTimeProvider((ignored1, ignored2) -> SAMPLE_FILE_MODIFICATION_TIME);
     JibContainerBuilder jibContainerBuilder =
         new MavenProjectProperties(mockMavenProject, mockMavenSession, mockLog)
-            .createJibContainerBuilder(javaContainerBuilder, containerizingMode);
+            .createJibContainerBuilder(javaContainerBuilder, containerizingMode, "");
     return JibContainerBuilderTestHelper.toBuildConfiguration(
         jibContainerBuilder,
         Containerizer.to(RegistryImage.named("to"))

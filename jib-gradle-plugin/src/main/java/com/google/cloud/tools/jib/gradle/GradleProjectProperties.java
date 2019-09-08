@@ -132,7 +132,8 @@ class GradleProjectProperties implements ProjectProperties {
 
   @Override
   public JibContainerBuilder createJibContainerBuilder(
-      JavaContainerBuilder javaContainerBuilder, ContainerizingMode containerizingMode) {
+      JavaContainerBuilder javaContainerBuilder, ContainerizingMode containerizingMode,
+      String projectPropertiesSelector) {
     try {
       if (isWarProject()) {
         logger.info("WAR project identified, creating WAR image: " + project.getDisplayName());

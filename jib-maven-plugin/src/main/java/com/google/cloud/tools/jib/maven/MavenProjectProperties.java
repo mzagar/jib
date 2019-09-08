@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 import org.apache.maven.artifact.Artifact;
@@ -183,7 +184,7 @@ public class MavenProjectProperties implements ProjectProperties {
 
   @Override
   public JibContainerBuilder createJibContainerBuilder(
-      JavaContainerBuilder javaContainerBuilder, ContainerizingMode containerizingMode)
+      JavaContainerBuilder javaContainerBuilder, ContainerizingMode containerizingMode, String projectDependenciesSelector)
       throws IOException {
     try {
       if (isWarProject()) {
@@ -220,7 +221,7 @@ public class MavenProjectProperties implements ProjectProperties {
                   .getProjects()
                   .stream()
                   .map(MavenProject::getArtifact)
-                  .collect(Collectors.toSet()));
+                  .collect(Collectors.toSet()), projectDependenciesSelector);
 
       return javaContainerBuilder
           .addDependencies(
@@ -248,14 +249,16 @@ public class MavenProjectProperties implements ProjectProperties {
 
   @VisibleForTesting
   Map<LayerType, List<Path>> classifyDependencies(
-      Set<Artifact> dependencies, Set<Artifact> projectArtifacts) {
+      Set<Artifact> dependencies, Set<Artifact> projectArtifacts, String projectDependenciesSelector) {
     Map<LayerType, List<Path>> classifiedDependencies = new HashMap<>();
     classifiedDependencies.put(LayerType.DEPENDENCIES, new ArrayList<>());
     classifiedDependencies.put(LayerType.SNAPSHOT_DEPENDENCIES, new ArrayList<>());
     classifiedDependencies.put(LayerType.PROJECT_DEPENDENCIES, new ArrayList<>());
 
+    Pattern projectDependenciesSelectorRegex = "".equals(projectDependenciesSelector) ? null : Pattern.compile(projectDependenciesSelector);
+
     for (Artifact artifact : dependencies) {
-      if (projectArtifacts.contains(artifact)) {
+      if (projectArtifacts.contains(artifact) || (projectDependenciesSelectorRegex != null && projectDependenciesSelectorRegex.matcher(artifact.getArtifactId()).matches())) {
         classifiedDependencies.get(LayerType.PROJECT_DEPENDENCIES).add(artifact.getFile().toPath());
       } else if (artifact.isSnapshot()) {
         classifiedDependencies

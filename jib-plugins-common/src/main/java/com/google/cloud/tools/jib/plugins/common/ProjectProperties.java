@@ -59,11 +59,12 @@ public interface ProjectProperties {
    *
    * @param javaContainerBuilder Java container builder to start with
    * @param containerizingMode mode to containerize the app
+   * @param projectPropertiesSelector regex to match dependencies which should go to project dependency layer
    * @return a {@link JibContainerBuilder} with classes, resources, and dependencies added to it
    * @throws IOException if there is a problem walking the project files
    */
   JibContainerBuilder createJibContainerBuilder(
-      JavaContainerBuilder javaContainerBuilder, ContainerizingMode containerizingMode)
+      JavaContainerBuilder javaContainerBuilder, ContainerizingMode containerizingMode, String projectPropertiesSelector)
       throws IOException;
 
   List<Path> getClassFiles() throws IOException;

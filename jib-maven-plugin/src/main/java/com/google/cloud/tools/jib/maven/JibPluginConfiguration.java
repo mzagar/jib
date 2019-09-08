@@ -256,6 +256,9 @@ public abstract class JibPluginConfiguration extends AbstractMojo {
   @Parameter(property = PropertyNames.CONTAINERIZING_MODE)
   private String containerizingMode = "exploded";
 
+  @Parameter(property = PropertyNames.PROJECT_DEPENDENCIES_SELECTOR)
+  private String projectDependenciesSelector = "";
+
   @Parameter(property = PropertyNames.SKIP)
   private boolean skip;
 
@@ -665,6 +668,13 @@ public abstract class JibPluginConfiguration extends AbstractMojo {
     String property = getProperty(PropertyNames.CONTAINERIZING_MODE);
     return property != null ? property : containerizingMode;
   }
+
+  public String getProjectDependenciesSelector() {
+    String property = getProperty(PropertyNames.PROJECT_DEPENDENCIES_SELECTOR);
+    return property != null ? property : projectDependenciesSelector;
+  }
+
+
 
   boolean isSkipped() {
     return skip;
